@@ -1,4 +1,4 @@
-# Ascmii
+# ASCMII
 
 Instantly identify exactly the name and code of any typed or pasted ASCII character.
 

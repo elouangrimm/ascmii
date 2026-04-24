@@ -143,6 +143,16 @@ main {
     pointer-events: none;
 }
 
+.hero-logo {
+    font-family: var(--font-mono);
+    font-size: 6rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5rem;
+    text-shadow: 0 0 20px var(--accent-bg);
+}
+
 #instruct-container.hidden {
     opacity: 0;
     visibility: hidden;
