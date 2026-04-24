@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="Ascmii - Instantly identify the name and code of any ASCII character.">
+    <meta name="author" content="Elouan Grimm">
+    
+    <meta property="og:title" content="Ascmii">
+    <meta property="og:description" content="Instantly identify the name and code of any ASCII character.">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>Ascmii</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231c1917'/><text x='50' y='50' font-family='monospace' font-size='60' fill='%23e7e5e4' dominant-baseline='middle' text-anchor='middle'>A</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="mode-switch">
+            <button id="btn-lookup" class="active">Lookup</button>
+            <button id="btn-search">Search</button>
+        </div>
+    </header>
+
+    <main id="view-lookup">
+        <div class="container">
+            <h1 id="char-display">_</h1>
+            <div class="info-wrapper">
+                <div id="info-container" class="hidden">
+                    <h2 id="char-name"></h2>
+                    <div id="char-meaning" class="meaning-text"></div>
+                    <div class="code-details">
+                        <span id="char-code"></span>
+                        <span id="char-hex"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="instruct-container">
+                <p>Type or paste any character</p>
+                <div class="cursor-blink"></div>
+                <p class="sub-instruct">Double Esc to clear</p>
+            </div>
+        </div>
+        <div id="history-section" class="hidden">
+            <h3>Recent History</h3>
+            <div id="history-container" class="history-grid"></div>
+        </div>
+    </main>
+
+    <main id="view-search" class="hidden-view">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="SEARCH UNICODE NAMES..." autocomplete="off" spellcheck="false">
+            <div id="search-results" class="cards-grid"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

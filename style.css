@@ -1,0 +1,429 @@
+:root {
+    --stone-050: #fafaf9;
+    --stone-100: #f5f5f4;
+    --stone-200: #e7e5e4;
+    --stone-300: #d6d3d1;
+    --stone-400: #a8a29e;
+    --stone-500: #78716c;
+    --stone-600: #57534e;
+    --stone-700: #44403c;
+    --stone-800: #292524;
+    --stone-900: #1c1917;
+    --stone-950: #0c0a09;
+    
+    --blue: #3b82f6;
+    --red: #ef4444;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    
+    --bg: var(--stone-950);
+    --bg-raised: var(--stone-900);
+    --bg-surface: var(--stone-800);
+    --border: var(--stone-800);
+    --border-strong: var(--stone-500);
+    --text: var(--stone-200);
+    --text-muted: var(--stone-400);
+    --text-faint: var(--stone-500);
+    --text-bright: var(--stone-100);
+    --accent: var(--blue);
+    --accent-hover: #5193f8;
+    --accent-bg: rgba(59, 130, 246, 0.1);
+    
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "Roboto Mono", "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+    --line-height: 1.6;
+    --line-height-tight: 1.2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: var(--line-height);
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+}
+
+#view-lookup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#view-search {
+    overflow-y: auto;
+    display: block;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+}
+
+#char-display {
+    font-family: var(--font-mono);
+    font-size: clamp(6rem, 30vmin, 40vmin);
+    line-height: normal; /* Many unicode characters have huge ascenders/descenders that get cut off with line-height: 1 */
+    color: var(--accent);
+    user-select: all;
+    word-break: break-all;
+    font-weight: 300;
+    letter-spacing: -0.05em;
+    position: relative;
+    z-index: 10;
+    min-height: clamp(8rem, 35vmin, 45vmin);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 30px var(--accent-bg);
+}
+
+.info-wrapper {
+    position: relative;
+    z-index: 20;
+    margin-top: 1rem; /* push away from char so no overlap */
+    border-radius: 0;
+    min-height: 120px;
+}
+
+#info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    opacity: 1;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(0);
+    background: var(--bg-surface);
+    padding: 1.5rem 3rem;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--bg);
+}
+
+#info-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    position: absolute;
+    pointer-events: none;
+}
+
+#instruct-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+#instruct-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#instruct-container p {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+}
+
+.cursor-blink {
+    width: 2px;
+    height: 1.5rem;
+    background-color: var(--text-muted);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.sub-instruct {
+    font-size: 0.75rem !important;
+    opacity: 0.6;
+    margin-top: 1rem;
+}
+
+#char-name {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--text-bright);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+.meaning-text {
+    font-family: var(--font-sans);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: -0.5rem auto 0;
+    line-height: 1.4;
+    min-height: 1.5rem;
+}
+
+.code-details {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    color: var(--accent);
+}
+
+.code-details span {
+    background-color: var(--bg-surface);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Added Header and Lookup/Search Mode Switch --- */
+
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.mode-switch {
+    display: flex;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    pointer-events: auto;
+}
+
+.mode-switch button {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.mode-switch button:hover {
+    color: var(--text-bright);
+}
+
+.mode-switch button.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: bold;
+}
+
+.hidden-view {
+    display: none !important;
+}
+
+/* --- History and Search Results Cards --- */
+
+#history-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    text-align: left;
+    padding: 0 2rem;
+}
+
+#history-section.hidden {
+    display: none;
+}
+
+#history-section h3 {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 0.5rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    width: 100%;
+}
+
+.history-grid .char-card {
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.history-grid .card-char {
+    font-size: 2.5rem;
+    min-height: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.history-grid .card-name {
+    font-size: 0.75rem;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.history-grid .card-hex {
+    font-size: 0.7rem;
+    margin-top: auto;
+}
+
+.history-grid .copy-btn {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.6rem;
+}
+
+.char-card {
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    text-align: left;
+}
+
+.char-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-surface);
+}
+
+.char-card .card-char {
+    font-family: var(--font-mono);
+    font-size: 3.5rem;
+    color: var(--accent);
+    line-height: 1;
+    min-height: 3.5rem;
+    word-break: break-all;
+}
+
+.char-card .card-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-bright);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.char-card .card-hex {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-faint);
+}
+
+.copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+    text-transform: uppercase;
+}
+
+.char-card:hover .copy-btn {
+    opacity: 1;
+}
+
+.copy-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+}
+
+/* --- Search Input View --- */
+
+.search-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 8rem auto 2rem;
+    padding: 0 2rem;
+}
+
+#search-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    color: var(--text-bright);
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    padding: 1.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 2rem;
+}
+
+#search-input:focus {
+    border-color: var(--accent);
+}
